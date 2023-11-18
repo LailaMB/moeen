@@ -1,0 +1,141 @@
+
+body { 
+    --bs-body-font-family: 'Noto Kufi Arabic', sans-serif !important;
+}
+
+
+
+.bg-image {
+    /* Background pattern from Toptal Subtle Patterns */
+    height: 250px;
+    width: 100%;
+    background-image: url("../static/image/pages-bg.svg");
+    background-size: cover;
+ }
+
+
+
+.nav-link {
+    color: #00A4AC;
+}
+
+.nav-link:hover {
+    color: #015859;
+  }
+  
+
+ .tab-content {
+    min-height: 200px;
+ } 
+
+#input-text-area {
+    -fx-background-color: white;
+
+    /* Shadow effect */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 5.0, 5.0);
+}
+
+#input-text-area .content {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+#input-text-area:focused .content {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+
+
+mark.yellow {
+      margin: 0 -0.4em;
+      padding: 0.1em 0.4em;
+      border-radius: 0.8em 0.3em;
+      background: transparent;
+      background-image: linear-gradient(
+        to right,
+        rgba(255, 225, 0, 0.1),
+        rgba(255, 225, 0, 0.7) 4%,
+        rgba(255, 225, 0, 0.3)
+      );
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      cursor: pointer;
+  }
+
+
+mark.green {
+      margin: 0 -0.4em;
+      padding: 0.1em 0.4em;
+      border-radius: 0.8em 0.3em;
+      background: transparent;
+      background-image: linear-gradient(
+        to right,
+        rgba(0, 225, 0, 0.1),
+        rgba(0, 225, 0, 0.7) 4%,
+        rgba(0, 225, 0, 0.3)
+      );
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      cursor: pointer;
+  }
+
+
+
+
+.process-btn{
+    background-color: #00A4AC;
+    color: #FFF;
+    border: none;
+}
+
+.process-btn:hover{
+    background-color: #015859;
+    color: #FFF;
+}
+
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #00A4AC;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+
+
+.accordion {
+
+    --bs-accordion-active-color: #015859 !important;
+    --bs-accordion-active-bg: #dff5f3;
+}
+
+
+.accordion-item:first-child {
+    margin-top: 0rem !important;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+}
+
+
+.accordion-button::after{
+    margin-left: 0 !important;
+    margin-right: auto;
+  }
+
+
+h5{
+    display: inline-block;
+}
+
+.badge{
+    direction: ltr;
+}
+
+#moeen-footer{
+    background-color: #015859;
+}

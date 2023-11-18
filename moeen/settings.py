@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-#5td@6#f8h3-_vtjqt2lt)zbr3iyfd0)tzo&8eck-0ja55_i!j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 
@@ -91,12 +91,17 @@ WSGI_APPLICATION = 'moeen.wsgi.application'
 
 # cloud database
 
+DATABASE_URL = os.getenv('DATABASE_URL')
 DATABASES = {
-    'default': {
-        dj_database_url.parse(os.environ.get("DATABASE_URL"))
-
-    }
+    'default': dj_database_url.config(),
 }
+
+#DATABASES = {
+#    'default': {
+#        dj_database_url.parse(os.environ.get("DATABASE_URL"))
+
+#    }
+#}
 
 
 # Password validation

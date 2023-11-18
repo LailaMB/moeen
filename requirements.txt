@@ -23,8 +23,4 @@ sniffio==1.3.0
 sqlparse==0.4.4
 tqdm==4.66.1
 typing_extensions==4.7.1
-<<<<<<< HEAD
 urllib3==2.0.7
-=======
-urllib3==2.0.7
->>>>>>> 0b939f99bc4f9b939f27491ae9aa10196b1543c3

@@ -10,6 +10,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -20,7 +21,6 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{% static 'image/favicon.ico' %}"/> 
 
-    <link rel = "stylesheet" href="{% static 'css/styles.css' %}">
     <link href="{% static 'css/moeen.css' %}" rel="stylesheet" />
 </head>
 
@@ -28,42 +28,25 @@
 <body>
 
     <header class = "header-inside">
-        <div class = "container bg-image">
+        <div class = "container">
             <nav class="navbar navbar-expand-lg home-nav">
                 <nav class="navbar navbar-light m-0 mr-4">
                     <img src="{% static 'image/logo-dark.svg' %}" alt="KSAA Logo شعار مجمع الملك سلمان العالمي للغة العربية" height="45">
-
-
                 </nav>
 
                 <a href="https://ksaa.gov.sa/" target="_blank" class="ml-5 hide-md hide-xs m-4">
                     <img src="{% static 'image/logoA.png' %}" height="45" alt="شعار مجمع الملك سلمان العالمي للغة العربية">
                 </a>
             </nav>
-            <div class="collapse navbar-collapse responsive-light" id="navbarNav">
-                <!-- <ul class="navbar-nav bg-white border-1">
-                    <li class="nav-item">الرئيسة</li>
-                    <li class="nav-item">كلمة اليوم</li>
-                    <li class="nav-item">إثراء المعجم</li>
-                    <li class="nav-item">عن المعجم</li> 
-                    <li class="nav-item">إحصاءات</li> 
-                    <li class="nav-item">اتصل بنا</li> 
-
-                </ul> -->
-
-            </div>
-
-
         </div>
-ç
     </header>
 
     <!-- Page header with logo and tagline-->
     <header class="py-3 bg-light border-bottom mb-4">
-        <div class="container bg-image">
+        <div class="container">
             <div class="text-center my-5">
                 <img src="{% static 'image/qari_moeen_logo.svg' %}"   class="rounded mx-auto d-block logo" alt="logo">
-                <p class="lead mt-4">قم بإدخال نص ليُعينك  مُعين القارئ في قرائته بمساعدة <a href="https://dictionary.ksaa.gov.sa/">معجم الرياض</a> </p> 
+                <p class="lead mt-4">ادخل النص هنا واترك معين القارئ يجلب لك المعاني من <a href="https://dictionary.ksaa.gov.sa/"> معجم الرياض </a> </p> 
             </div>
         </div>
     </header>
@@ -87,12 +70,14 @@
                             <!-- Textarea -->
 
                             <div id = "main-form">
-                                <form method = "POST" action= "" name= "text-form" id = "main-form" onsubmit="processText()"> 
+                                <form method = "POST" action= "" name= "text-form" id = "main-form" onsubmit=processText()> 
                                     {% csrf_token %}
                                     {{ form }}
                                     <div class="d-grid gap-2 col-6 mx-auto">
                                         <button class = "btn btn-outline-success btn-lg m-4 process-btn" type="submit" value="تحليل" id="process-btn">
-                                            تحليل <i class="fa fa-spinner fa-spin" id="spinner" style="display:none;"></i></button>
+                                            تحليل <!--<i class="fa fa-spinner fa-spin"  style="display:none;"></i>-->
+                                                  <span class="spinner-border spinner-border-sm" id="spinner" role="status" aria-hidden="true" style="display:none;"></span>
+                                        </button>
                                     <!-- <textarea  autofocus class="form-control" rows="6" id="input-text-area" name="text" maxlength = "500" placeholder="ادخل النص هنا" onkeyup = checkInputText(this)></textarea> -->
                                     </div>
                                 </form>
@@ -104,7 +89,7 @@
                             <div id="processed-text-div">
                                  <p class = "lh-lg " id = "processed-text-paragraph">
                                     {% for word in originalText %}
-                                        {% if word in processedText %}
+                                        {% if word not in notFoundList %}
                                             <mark class="yellow" onclick = openTextMeaning(this)>{{word}}</mark>
                                         {% else %}
                                             {{word}}
@@ -113,7 +98,6 @@
                                     {% endfor %}
                                      <!--<mark class="green" onclick = openTextMeaning(this)>صنديد</mark>
                                      <mark class="yellow" onclick = openTextMeaning(this)>بعد</mark> -->
-
                                 </p>
                             </div>
                             <!-- End Processed paragraph -->
@@ -142,31 +126,27 @@
                         
                     <div class="accordion-item my-3 shadow">
                         <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" id="accordion-btn-1" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-1" >{{w.0.word}}</button>
+                            <button class="accordion-button collapsed" id="accordion-btn-{{ forloop.counter }}" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-{{ forloop.counter }}" >{{w.0.word}}</button>
                         </h2>
-                        <div id="content-accordion-1" class="accordion-collapse collapse" data-bs-parent="#words-info-accordion">
+                        <div id="content-accordion-{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#words-info-accordion">
                             
                             <div class="accordion-body">
                                 {% for meaning in w %}
-                                <a href="https://dictionary.ksaa.gov.sa/result/"+{{w.word}}><h5>{{meaning.word}}</h5></a>
-                                <span class="badge text-bg-primary m-2">
+                                <a href="https://dictionary.ksaa.gov.sa/result/{{w.0.word}}" target=”_blank”><h5>{{meaning.word}}</h5></a>
                                 {% if meaning.pos == 'name' %}
-                                    اسم
+                                    <span class="badge bg-primary">اسم</span>   
                                 {% elif meaning.pos == 'verb' %}
-                                    فعل
+                                    <span class="badge bg-success">فعل</span>
                                 {% elif meaning.pos == 'adj' %}
-                                    صفة
+                                    <span class="badge bg-warning text-dark">صفة</span>
                                 {% elif meaning.pos == 'pron' %}
-                                    ضمير
+                                    <span class="badge bg-info text-dark">ضمير</span>
                                 {% else %}
-                                    أخرى
+                                    <span class="badge bg-light text-dark">أخرى</span>   
                                 {% endif %} 
-                                </span>
                                 <code class="text-start">{{ meaning.morph_pattern}}</code>
                                 <p class ="fs-6 fw-light" id="arabic-meaning">{{ meaning.arabic_meaning }}</p>
-                                <p class ="fs-6 fw-light fst-italic" id="ِenglish-meaning" dir="auto">{{ meaning.english_translation }}</p>
-                                <cite>الشيوع: {{ meaning.usage_level }}</cite>
-                                
+                                <p class ="fs-6 fw-light fst-italic" id="ِenglish-meaning" dir="auto">{{ meaning.english_translation }}</p>                                
                                 <hr>
                                 {% endfor %}
                             </div>
@@ -174,7 +154,6 @@
                     </div>
 
                     {% endfor %}
-
 
 
                 </div>

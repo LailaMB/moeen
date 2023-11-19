@@ -24,11 +24,16 @@ function checkInputText(inputText) {
 
 // If button is pressed
 
-function processText(mainBtn) {
+function processText() {
 
+  console.log("This is process text");
   var spinner = document.getElementById("spinner");
-  spinner.style.display = 'inline';
+  spinner.style.display = "inline-block";
 
+  var processBtn = document.getElementById("process-btn");
+  processBtn.disabled  = true;
+
+  };
 
 
     // processing effect on button
@@ -67,14 +72,14 @@ function processText(mainBtn) {
 
 		// }
 		
-  };
+
 
 
 
   // When a word is clicked open its meaning 
 
 
-function openTextMeaning(spanWord) {
+/* function openTextMeaning(spanWord) {
     var mainAcc = document.getElementById("words-info-accordion").children;
     var i;
 
@@ -88,12 +93,9 @@ function openTextMeaning(spanWord) {
     		btnAcc.click();
     	}
 
-    }
+    } */
 
 
-
-    
-  };
 
 
 

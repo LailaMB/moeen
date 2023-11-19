@@ -9,7 +9,7 @@ body {
     /* Background pattern from Toptal Subtle Patterns */
     height: 250px;
     width: 100%;
-    background-image: url("../static/image/pages-bg.svg");
+    background-image: url("../static/image/pages-bg.png");
     background-size: cover;
  }
 

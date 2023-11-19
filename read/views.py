@@ -75,6 +75,7 @@ def index(request):
 
             # Connect to API
             word_data_lst = []
+            not_found_words_lst = [] #processed_text_lst.copy()
             for word_to_search in processed_text_lst:
                 url = 'https://siwar.ksaa.gov.sa/api/alriyadh/search?query='+word_to_search
                 headers = {'accept': 'application/json', 'apikey': '89a50cce-f3d3-44bc-adf2-981628c30643'}
@@ -82,8 +83,8 @@ def index(request):
                 if response.ok:
                     
                     data = response.json() 
-                    print("from json", data)
-                    if data is not None:   
+                    #print("from json", data)
+                    if data != []:   
                         same_word_list = []
                         for d in data: 
                             if d['pos'] in ['N', 'NC', 'NA', 'NL', 'NT','NM', 'NG','NF','NO','NI']:
@@ -103,18 +104,31 @@ def index(request):
                                 'word': d['lemma']['formRepresentations'][0]['form'],
                                 'morph_pattern': d['morphologicalPatterns'],
                                 'pos': pos,
-                                'arabic_meaning': d['senses'][0]['definition']['textRepresentations'][0]['form'],
-                                'english_translation': d['senses'][0]['translations'][0]['form'],
+                                #'arabic_meaning': d['senses'][0]['definition']['textRepresentations'][0]['form'],
+                                #'english_translation': d['senses'][0]['translations'][0]['form'],
                                 #'usage_level': d['extras']['senseDetails'][0]['usageLevel'],
                                 #'theme': d['extras']['senseDetails'][0]['theme']
                             }
+
+                            if d['senses'] != []:
+                                word_data["arabic_meaning"] = d['senses'][0]['definition']['textRepresentations'][0]['form']
+                            
+                            if d['senses'] != []:
+                                word_data["english_translation"] = d['senses'][0]['translations'][0]['form']
+
+
                             same_word_list.append(word_data)
                         word_data_lst.append(same_word_list)
-            print('same_word_list',same_word_list)
-            print('word_data_lst',word_data_lst)
+                    else:
+                        not_found_words_lst.append(word_to_search)
+                        print("Not found in API", not_found_words_lst)
+            #print('same_word_list',same_word_list)
+            #print('word_data_lst',word_data_lst)
+
+            not_found_words_lst.extend(func_words)
 
             return render(request, "read/index.html", context = {'form': form, 'originalText':text_lst,
-                                                                 'processedText': processed_text_lst, 'wordList':word_data_lst})
+                                                                 'notFoundList': not_found_words_lst, 'wordList':word_data_lst})
       
     form = ContactForm()
     return render(request, "read/index.html", {'form': form})

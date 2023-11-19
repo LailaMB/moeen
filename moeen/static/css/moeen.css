@@ -9,7 +9,7 @@ body {
     /* Background pattern from Toptal Subtle Patterns */
     height: 250px;
     width: 100%;
-    background-image: url("../static/image/pages-bg.svg");
+    background-image: url("../static/image/pages-bg.png");
     background-size: cover;
  }
 
@@ -29,6 +29,7 @@ body {
  } 
 
 #input-text-area {
+    background-color: white;
     -fx-background-color: white;
 
     /* Shadow effect */
@@ -36,12 +37,14 @@ body {
 }
 
 #input-text-area .content {
+    background-color: white;
     -fx-background-color: white;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
 }
 
 #input-text-area:focused .content {
+    background-color: white;
     -fx-background-color: white;
     -fx-background-insets: 0;
     -fx-background-radius: 0;

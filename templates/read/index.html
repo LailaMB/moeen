@@ -88,11 +88,23 @@
                             <!-- Processed paragraph -->
                             <div id="processed-text-div">
                                  <p class = "lh-lg " id = "processed-text-paragraph">
-                                    {% for word in originalText %}
-                                        {% if word not in notFoundList %}
-                                            <mark class="yellow" onclick = openTextMeaning(this)>{{word}}</mark>
+                                    {% for word in wordList %}
+                                        {% if word.found and word.pos != 'stopword' %}
+                                            {% if word.difficulty_level == 1 %}
+                                                <mark class="yellow" onclick = openTextMeaning(this)>{{word.original_word}}</mark>
+                                            {% elif word.difficulty_level == 2 %}
+                                                <mark class="green" onclick = openTextMeaning(this)>{{word.original_word}}</mark>
+                                            {% elif word.difficulty_level == 3 %}
+                                                <span class="blue" onclick = openTextMeaning(this)>{{word.original_word}}</span>
+                                            {% elif word.difficulty_level == 4 %}
+                                                <span class="purple" onclick = openTextMeaning(this)>{{word.original_word}}</span>
+                                            {% elif word.difficulty_level == 5 %}
+                                                <span class="red" onclick = openTextMeaning(this)>{{word.original_word}}</span>
+                                            {% elif word.difficulty_level == 0 %} 
+                                                <span class="gray" onclick = openTextMeaning(this)>{{word.original_word}}</span> 
+                                            {% endif %}
                                         {% else %}
-                                            {{word}}
+                                            {{word.original_word}}
                                         {% endif %}
 
                                     {% endfor %}
@@ -123,36 +135,38 @@
                 
                 <div class="accordion" id="words-info-accordion">
                     {% for w in wordList %}
-                        
-                    <div class="accordion-item my-3 shadow">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" id="accordion-btn-{{ forloop.counter }}" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-{{ forloop.counter }}" >{{w.0.word}}</button>
-                        </h2>
-                        <div id="content-accordion-{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#words-info-accordion">
-                            
-                            <div class="accordion-body">
-                                {% for meaning in w %}
-                                <a href="https://dictionary.ksaa.gov.sa/result/{{w.0.word}}" target=”_blank”><h5>{{meaning.word}}</h5></a>
-                                {% if meaning.pos == 'name' %}
-                                    <span class="badge bg-primary">اسم</span>   
-                                {% elif meaning.pos == 'verb' %}
-                                    <span class="badge bg-success">فعل</span>
-                                {% elif meaning.pos == 'adj' %}
-                                    <span class="badge bg-warning text-dark">صفة</span>
-                                {% elif meaning.pos == 'pron' %}
-                                    <span class="badge bg-info text-dark">ضمير</span>
-                                {% else %}
-                                    <span class="badge bg-light text-dark">أخرى</span>   
-                                {% endif %} 
-                                <code class="text-start">{{ meaning.morph_pattern}}</code>
-                                <p class ="fs-6 fw-light" id="arabic-meaning">{{ meaning.arabic_meaning }}</p>
-                                <p class ="fs-6 fw-light fst-italic" id="ِenglish-meaning" dir="auto">{{ meaning.english_translation }}</p>                                
-                                <hr>
-                                {% endfor %}
+                        {% if w.found %}
+                        {% if w.pos != 'stopword' %}
+                            <div class="accordion-item my-3 shadow">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" id="accordion-btn-{{ forloop.counter }}" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-{{ forloop.counter }}" >{{w.original_word}}</button>
+                                </h2>
+                                <div id="content-accordion-{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#words-info-accordion">
+                                    
+                                    <div class="accordion-body">
+                                        {% for meaning in w.word_info %}
+                                        <a href="https://dictionary.ksaa.gov.sa/result/{{w.0.word}}" target=”_blank”><h5>{{meaning.word}}</h5></a>
+                                        {% if meaning.pos == 'name' %}
+                                            <span class="badge bg-primary">اسم</span>   
+                                        {% elif meaning.pos == 'verb' %}
+                                            <span class="badge bg-success">فعل</span>
+                                        {% elif meaning.pos == 'adj' %}
+                                            <span class="badge bg-warning text-dark">صفة</span>
+                                        {% elif meaning.pos == 'pron' %}
+                                            <span class="badge bg-info text-dark">ضمير</span>
+                                        {% else %}
+                                            <span class="badge bg-light text-dark">أخرى</span>   
+                                        {% endif %} 
+                                        <code class="text-start">{{ meaning.morph_pattern}}</code>
+                                        <p class ="fs-6 fw-light" id="arabic-meaning">{{ meaning.arabic_meaning }}</p>
+                                        <p class ="fs-6 fw-light fst-italic" id="ِenglish-meaning" dir="auto">{{ meaning.english_translation }}</p>                                
+                                        <hr>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
+                        {% endif %}
+                        {% endif %}
                     {% endfor %}
 
 
